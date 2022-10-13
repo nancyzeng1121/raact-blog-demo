@@ -1,0 +1,24 @@
+{
+  "name": "react-node-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nancyzeng1121/react-node-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nancyzeng1121/react-node-app/issues"
+  },
+  "homepage": "https://github.com/nancyzeng1121/react-node-app#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
