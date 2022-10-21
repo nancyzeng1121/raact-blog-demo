@@ -1,6 +1,7 @@
 {
   "greet": "欢迎使用react admin template 👏🏼👏🏼👏🏼！",
   "homeRouteText": "首页",
+  "signIn": "登录",
   "table": {
     "dragSortingTable": {
       "menu": "表格",

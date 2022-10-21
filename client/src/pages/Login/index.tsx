@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import { home } from '/@/services';
 import { useStore } from '/@/stores';
 import style from './index.module.less';
+import {login_right} from './../../assets/images/login/index'
+import {useChangeLang} from "@/hooks";
 
 const layout = {
   labelCol: { span: 8 },
@@ -20,6 +22,7 @@ interface ILogin {
 
 const Login: FC<ILogin> = ({ history }: ILogin) => {
   const { loginStore } = useStore();
+  const { t } = useChangeLang();
   const onFinish = async (values: { userName: string; passWord: string; remember: boolean }) => {
     const data = await home.login(values);
     if (data.ret === '0') {
@@ -41,7 +44,54 @@ const Login: FC<ILogin> = ({ history }: ILogin) => {
   };
 
   return (
-    <div className={classNames(style['login'], 'flex-all-center')}>
+    <div className={style['login-container']}>
+      <div className={style['login-right-wrap']}>
+          <div className={style['right-greet']}>{t('greet')}</div>
+          <img src={login_right} alt="login"/>
+      </div>
+      <div className={style['login-left-wrap']}>
+        <div className={style['login-left-content']}>
+          <div className={style['sign-in-nane']}>{t('signIn')}</div>
+          <div className={style['tips']}>
+            管理admin,运营zenquan
+          </div>
+          <Form
+            {...layout}
+            name="basic"
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            className={style['login__form__form']}
+          >
+            <Form.Item
+              label="用户名"
+              name="userName"
+              labelAlign="left"
+              rules={[{ required: true, message: '请输入用户名!' }]}
+            >
+              <Input placeholder="管理admin,运营zenquan" />
+            </Form.Item>
+
+            <Form.Item
+              label="密码"
+              name="passWord"
+              labelAlign="left"
+              rules={[{ required: true, message: '请输入密码!' }]}
+            >
+              <Input.Password placeholder="管理admin,运营zenquan" />
+            </Form.Item>
+
+            <Form.Item {...tailLayout} name="remember" valuePropName="checked">
+              <Checkbox>记住我</Checkbox>
+            </Form.Item>
+            <Button type="primary" htmlType="submit" className={style['login__form__form__submit']}>
+              提交
+            </Button>
+          </Form>
+        </div>
+      </div>
+    </div>
+    /*<div className={classNames(style['login'], 'flex-all-center')}>
       <div className={classNames(style['login__form'], 'flex-all-center')}>
         <span className={style['login__form__title']}>React Admin</span>
         <Form
@@ -78,7 +128,7 @@ const Login: FC<ILogin> = ({ history }: ILogin) => {
           </Button>
         </Form>
       </div>
-    </div>
+    </div>*/
   );
 };
 

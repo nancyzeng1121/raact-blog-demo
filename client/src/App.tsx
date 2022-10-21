@@ -1,35 +1,45 @@
-import React, { FC, Suspense } from 'react';
+import React, {FC, Suspense, useState} from 'react';
 import { Route, Switch, HashRouter as Router } from 'react-router-dom';
-import { Spin, Space } from 'antd';
+import {Spin, Space, ConfigProvider} from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
-import './App.css';
+import './App.moule.less';
 import { Provider } from 'mobx-react';
 import { store, StoreContext } from '/@/stores';
 import Login from './pages/Login';
 import Home from './pages/Home';
+import "./theme/custom-default.css";    // 引入custom-default.css 以及 custom-dark.css
+import "./theme/custom-dark.css";
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 const App: FC = () => {
+  const [prefix, setPrefix] = useState("custom-default");
+  const handlePrefixChange = (e: any) => {
+    setPrefix(e.target.value);
+  };
   return (
-    <Provider {...store} className="App">
-      <StoreContext.Provider value={store}>
-        <Router>
-          <Suspense
-            fallback={
-              <Space size="large" className="loading flex-all-center">
-                <Spin indicator={antIcon} size="large" tip="加载中" />
-              </Space>
-            }
-          >
-            <Switch>
-              <Route path="/login" component={Login} />
-              <Route path="/" component={Home} />
-            </Switch>
-          </Suspense>
-        </Router>
-      </StoreContext.Provider>
-    </Provider>
+
+      <Provider {...store} className="App">
+        <StoreContext.Provider value={store}>
+          <ConfigProvider prefixCls={prefix}>
+          <Router>
+            <Suspense
+              fallback={
+                <Space size="large" className="loading flex-all-center">
+                  <Spin indicator={antIcon} size="large" tip="加载中" />
+                </Space>
+              }
+            >
+              <Switch>
+                <Route path="/login" component={Login} />
+                <Route path="/" component={Home} />
+              </Switch>
+            </Suspense>
+          </Router>
+          </ConfigProvider>
+        </StoreContext.Provider>
+      </Provider>
+
   );
 };
 

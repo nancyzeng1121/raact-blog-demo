@@ -1,6 +1,7 @@
 {
   "greet": "Welcome to react admin template 👏🏼👏🏼👏🏼！",
   "homeRouteText": "Home",
+  "signIn": "Sign in",
   "table": {
     "dragSortingTable": {
       "menu": "Table",
