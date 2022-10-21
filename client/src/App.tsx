@@ -1,4 +1,4 @@
-import React, {FC, Suspense, useState} from 'react';
+import React, {FC, Suspense, useEffect, useState} from 'react';
 import { Route, Switch, HashRouter as Router } from 'react-router-dom';
 import {Spin, Space, ConfigProvider} from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
@@ -9,14 +9,18 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import "./theme/custom-default.css";    // 引入custom-default.css 以及 custom-dark.css
 import "./theme/custom-dark.css";
+import CommonLoading from "@/components/CommonLoading";
 
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+const antIcon = <CommonLoading/>;
 
 const App: FC = () => {
   const [prefix, setPrefix] = useState("custom-default");
+  const [loading, setLoading] = useState(true);
   const handlePrefixChange = (e: any) => {
     setPrefix(e.target.value);
   };
+  useEffect(() => {
+  }, [])
   return (
 
       <Provider {...store} className="App">
@@ -27,7 +31,7 @@ const App: FC = () => {
               fallback={
                 <Space size="large" className="loading flex-all-center">
                   <Spin indicator={antIcon} size="large" tip="加载中" />
-                </Space>
+               </Space>
               }
             >
               <Switch>
