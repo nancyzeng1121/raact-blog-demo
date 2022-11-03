@@ -1,50 +1,24 @@
-import React, {FC, Suspense, useEffect, useState} from 'react';
-import { Route, Switch, HashRouter as Router } from 'react-router-dom';
-import {Spin, Space, ConfigProvider} from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
-import './App.moule.less';
-import { Provider } from 'mobx-react';
-import { store, StoreContext } from '/@/stores';
-import Login from './pages/Login';
-import Home from './pages/Home';
-import "./theme/custom-default.css";    // 引入custom-default.css 以及 custom-dark.css
-import "./theme/custom-dark.css";
-import CommonLoading from "@/components/CommonLoading";
-
-const antIcon = <CommonLoading/>;
+import { FC } from 'react'
+import RouterConfig from '@/router/index'
+import { useStore } from '@/store/index'
+import { observer } from 'mobx-react-lite'
+// 国际化配置
+import { ConfigProvider } from 'antd'
+import zhCN from 'antd/lib/locale/zh_CN'
+import 'moment/locale/zh-cn'
+import enUS from 'antd/lib/locale/en_US'
 
 const App: FC = () => {
-  const [prefix, setPrefix] = useState("custom-default");
-  const [loading, setLoading] = useState(true);
-  const handlePrefixChange = (e: any) => {
-    setPrefix(e.target.value);
-  };
-  useEffect(() => {
-  }, [])
-  return (
+	const { configStore } = useStore()
+	ConfigProvider.config({
+		// ui主题配置
+		theme: configStore.theme
+	})
+	return (
+		<ConfigProvider locale={configStore.locale === 'zh_CN' ? zhCN : enUS}>
+			<RouterConfig />
+		</ConfigProvider>
+	)
+}
 
-      <Provider {...store} className="App">
-        <StoreContext.Provider value={store}>
-          <ConfigProvider prefixCls={prefix}>
-          <Router>
-            <Suspense
-              fallback={
-                <Space size="large" className="loading flex-all-center">
-                  <Spin indicator={antIcon} size="large" tip="加载中" />
-               </Space>
-              }
-            >
-              <Switch>
-                <Route path="/login" component={Login} />
-                <Route path="/" component={Home} />
-              </Switch>
-            </Suspense>
-          </Router>
-          </ConfigProvider>
-        </StoreContext.Provider>
-      </Provider>
-
-  );
-};
-
-export default App;
+export default observer(App)
